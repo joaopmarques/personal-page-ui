@@ -1,4 +1,6 @@
-import * as React from "react"
+import * as React from "react";
+
+import "../style/index.css";
 
 // styles
 const pageStyles = {
@@ -133,7 +135,7 @@ const IndexPage = () => {
       <h1 style={headingStyles}>
         Congratulations
         <br />
-        <span style={headingAccentStyles}>— you just made a Gatsby site! </span>
+        <span className="text-xl text-grey-100">— you just made a Gatsby site! </span>
         <span role="img" aria-label="Party popper emojis">
           🎉🎉🎉
         </span>
