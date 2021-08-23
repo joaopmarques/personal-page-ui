@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `.env`,
+});
+
 module.exports = {
   siteMetadata: {
     siteUrl: "https://www.yourdomain.tld",
@@ -10,6 +14,7 @@ module.exports = {
     "gatsby-plugin-mdx",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
+    "gatsby-transformer-remark",
     {
       resolve: "gatsby-source-filesystem",
       options: {
@@ -27,11 +32,18 @@ module.exports = {
       __key: "pages",
     },
     {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `markdown-pages`,
+        path: `${__dirname}/src/markdown-pages`,
+      },
+    },
+    {
       resolve: `gatsby-source-strapi`,
       options: {
         apiURL: `http://localhost:1337`,
         queryLimit: 1000, // Defaults to 100
-        //collectionTypes: [`user`],
+        collectionTypes: [`article`],
         singleTypes: [`homepage`],
       },
     },
