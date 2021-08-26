@@ -1,6 +1,7 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Markdown from 'markdown-to-jsx';
 import { Link, graphql } from "gatsby";
+import TextTransition, { presets } from "react-text-transition";
 
 import Header from "../components/header";
 
@@ -8,6 +9,30 @@ import "../style/index.css";
 
 // markup
 const IndexPage = ({ data }) => {
+
+  // state: shortened header string
+  const [shortened, setShortened] = useState(false);
+
+  React.useEffect(() => {
+    window.onscroll = function () {
+      if (window.scrollY > 100) {
+        setShortened(true);
+      } else {
+        setShortened(false);
+      }
+    }
+  }, []);
+
+  // state: text switcher
+  const [textIndex, setTextIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const intervalId = setInterval(() =>
+      setTextIndex(textIndex => textIndex + 1),
+      2500
+    );
+    return () => clearTimeout(intervalId);
+  }, []);
 
   // shorten calls for data
   let homeData = data.allStrapiHomepage.edges[0].node;
@@ -19,13 +44,22 @@ const IndexPage = ({ data }) => {
       <Header
         title={homeData.header.nameDescription.title}
         tagline={homeData.header.nameDescription.text}
-        shortened={false}
+        shortened={shortened}
       />
 
       {/* Hero Area */}
       <section className="flex flex-wrap content-center h-screen py-3 px-20 bg-white">
         <div className="block text-xl text-gray-800">
-          {homeData.heroArea.heroText.text}
+          <span className="flex justify-start">
+            {homeData.heroArea.sentenceFirst}&nbsp;
+            <TextTransition
+              className="font-bold text-purple-700"
+              text={homeData.heroArea.typeList[textIndex % homeData.heroArea.typeList.length].entry}
+              springConfig={presets.stiff}
+            />
+            &nbsp;{homeData.heroArea.sentenceSecond}<br />
+          </span>
+          <span>{homeData.heroArea.sentenceLast}</span>
         </div>
       </section>
 
@@ -64,10 +98,12 @@ export const pageQuery = graphql`
       edges {
         node {
           heroArea {
-            heroText {
-              title
-              text
+            sentenceFirst
+            typeList {
+              entry
             }
+            sentenceSecond
+            sentenceLast
           }
           header {
             nameDescription {
