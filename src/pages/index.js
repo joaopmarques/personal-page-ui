@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Markdown from "markdown-to-jsx";
-import { Link, graphql } from "gatsby";
+import { graphql } from "gatsby";
 import TextTransition, { presets } from "react-text-transition";
 import { useSpring, animated } from "react-spring";
 
@@ -27,10 +27,14 @@ const IndexPage = ({ data }) => {
 
   // form management: set product name
   const [{ values }, handleChange, handleSubmit] = useForm();
-  const [productName, setProductName] = useState('');
+  const [productName, setProductName] = useState("");
 
   const getProductName = () => {
-    setProductName(Object.entries(values)[0][1]);
+    if (values && Object.keys(values).length === 0 && values.constructor === Object) {
+      setProductName("your product");
+    } else {
+      setProductName(Object.entries(values)[0][1]);
+    }
   };
 
   // shorten calls for data
@@ -87,6 +91,19 @@ const IndexPage = ({ data }) => {
           />
         </form>
       </section>
+
+      {/* Grand Area #1: showcase */}
+      <section className="flex justify-center content-end h-screen min-h-600">
+        <h1>{`This is ${productName}.`}</h1>
+        <article className="">
+          <main className="">
+            <Markdown>{homeData.productSheet.features}</Markdown>
+          </main>
+          <figure className="">
+            chart thing
+          </figure>
+        </article>
+      </section>
     </animated.main>
   );
 };
@@ -98,6 +115,12 @@ export const pageQuery = graphql`
     allStrapiHomepage {
       edges {
         node {
+          header {
+            nameDescription {
+              title
+              text
+            }
+          }
           heroArea {
             sentenceFirst
             typeList {
@@ -108,10 +131,13 @@ export const pageQuery = graphql`
             buttonString
             fieldPlaceholder
           }
-          header {
-            nameDescription {
-              title
-              text
+          productSheet {
+            features
+            chartData {
+              col {
+                colName
+                value
+              }
             }
           }
         }

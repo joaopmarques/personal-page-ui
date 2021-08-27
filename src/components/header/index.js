@@ -15,25 +15,10 @@ const Header = ({ ...props }) => {
     };
   }, []);
 
-  // state: hide header after scrolling for a bit
-  {
-    /*const [shortened, setShortened] = useState(false);
-
-  React.useEffect(() => {
-  window.onscroll = function () {
-    if (window.scrollY > 100) {
-    setShortened(true);
-    } else {
-    setShortened(false);
-    }
-  }
-  }, []); */
-  }
-
   const { title, tagline } = props;
   let parsedTagline;
   shortened
-    ? (parsedTagline = tagline.match(/(?<=\_)(.*?)(?=\_)/g))
+    ? (parsedTagline = tagline.match(/(?<=_)(.*?)(?=_)/g))
     : (parsedTagline = tagline);
 
   return (
@@ -43,7 +28,7 @@ const Header = ({ ...props }) => {
       }`}
     >
       <div className="my-0 mx-auto">
-        <span className="text-md mr-2">{title}</span>
+        <span className="text-md mr-4">{shortened ? title.split(' ')[0] : title}</span>
         {shortened ? (
           <span className="text-gray-800">{parsedTagline}</span>
         ) : (
