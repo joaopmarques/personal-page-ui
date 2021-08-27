@@ -1,96 +1,97 @@
-import React, { useState } from "react";
-import Markdown from 'markdown-to-jsx';
+import React, { useState, useEffect } from "react";
+import Markdown from "markdown-to-jsx";
 import { Link, graphql } from "gatsby";
 import TextTransition, { presets } from "react-text-transition";
+import { useSpring, animated } from "react-spring";
 
 import Header from "../components/header";
+import useForm from "../hooks/useForm";
 
 import "../style/index.css";
 
 // markup
 const IndexPage = ({ data }) => {
-
-  // state: shortened header string
-  const [shortened, setShortened] = useState(false);
-
-  React.useEffect(() => {
-    window.onscroll = function () {
-      if (window.scrollY > 100) {
-        setShortened(true);
-      } else {
-        setShortened(false);
-      }
-    }
-  }, []);
-
   // state: text switcher
-  const [textIndex, setTextIndex] = React.useState(0);
+  const [textIndex, setTextIndex] = useState(0);
 
-  React.useEffect(() => {
-    const intervalId = setInterval(() =>
-      setTextIndex(textIndex => textIndex + 1),
+  useEffect(() => {
+    const intervalId = setInterval(
+      () => setTextIndex((textIndex) => textIndex + 1),
       2500
     );
     return () => clearTimeout(intervalId);
   }, []);
 
+  // spring: fade in animation
+  const fadeIn = useSpring({ to: { opacity: 1 }, from: { opacity: 0 } });
+
+  // form management: set product name
+  const [{ values }, handleChange, handleSubmit] = useForm();
+  const [productName, setProductName] = useState('');
+
+  const getProductName = () => {
+    setProductName(Object.entries(values)[0][1]);
+  };
+
   // shorten calls for data
   let homeData = data.allStrapiHomepage.edges[0].node;
 
   return (
-    <main>
+    <animated.main style={fadeIn}>
       <title>Home Page</title>
 
       <Header
         title={homeData.header.nameDescription.title}
         tagline={homeData.header.nameDescription.text}
-        shortened={shortened}
       />
 
       {/* Hero Area */}
-      <section className="flex flex-wrap content-center h-screen py-3 px-20 bg-white">
-        <div className="block text-xl text-gray-800">
+      <section className="flex flex-wrap content-center h-screen min-h-400 py-3 px-20 bg-white">
+        <div className="block w-full text-3xl text-gray-800">
           <span className="flex justify-start">
-            {homeData.heroArea.sentenceFirst}&nbsp;
+            <span>{homeData.heroArea.sentenceFirst}&nbsp;</span>
             <TextTransition
               className="font-bold text-purple-700"
-              text={homeData.heroArea.typeList[textIndex % homeData.heroArea.typeList.length].entry}
-              springConfig={presets.stiff}
+              text={
+                homeData.heroArea.typeList[
+                  textIndex % homeData.heroArea.typeList.length
+                ].entry
+              }
+              springConfig={presets.gentle}
             />
-            &nbsp;{homeData.heroArea.sentenceSecond}<br />
+            <span>&nbsp;{homeData.heroArea.sentenceSecond}</span>
+            <br />
           </span>
-          <span>{homeData.heroArea.sentenceLast}</span>
+          <span className="block mt-4">{homeData.heroArea.sentenceLast}</span>
         </div>
+        <form
+          className="flex w-full max-w-3xl"
+          onSubmit={handleSubmit(getProductName)}
+        >
+          <input
+            className="fieldReset mt-8 -z-10"
+            onChange={handleChange}
+            id="item_name"
+            type="text"
+            placeholder={
+              homeData.heroArea.fieldPlaceholder +
+              homeData.heroArea.typeList[
+                textIndex % homeData.heroArea.typeList.length
+              ].entry
+            }
+          />
+          <input
+            className="buttonReset mt-8 pl-14 -ml-14 z-10"
+            type="submit"
+            value={homeData.heroArea.buttonString}
+          />
+        </form>
       </section>
+    </animated.main>
+  );
+};
 
-      <section className="max-w-6xl my-7 mx-auto">
-        <ul className="flex">
-          {data.allStrapiArticle.edges.map(article => (
-            <li key={article.node.id} className="mx-4 my-2 w-1/2">
-              <h2 className="text-3xl mt-2 mb-5 font-bold text-purple-600">
-                <Link to={`/${article.node.id}`}>
-                  <Markdown>{article.node.titleText.title}</Markdown>
-                </Link>
-              </h2>
-              <p>
-                <Markdown>{article.node.titleText.text}</Markdown>
-              </p>
-              <footer>
-                {article.node.externalLinks.map(link => (
-                  <Link to={link.url} className="block my-3 p-2 text-md bg-purple-100 text-purple-700 bold">
-                    <Markdown>{link.text}</Markdown>
-                  </Link>
-                ))}
-              </footer>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </main>
-  )
-}
-
-export default IndexPage
+export default IndexPage;
 
 export const pageQuery = graphql`
   query IndexQuery {
@@ -104,6 +105,8 @@ export const pageQuery = graphql`
             }
             sentenceSecond
             sentenceLast
+            buttonString
+            fieldPlaceholder
           }
           header {
             nameDescription {
@@ -140,4 +143,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;
