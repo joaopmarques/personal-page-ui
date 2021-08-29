@@ -141,7 +141,7 @@ header span strong {
   @apply transition-colors;
   @apply cursor-pointer;
   @apply flex;
-  @apply content-center;
+  @apply items-center;
   @apply justify-center;
   @apply p-0;
   @apply h-16;
