@@ -23,12 +23,14 @@ const Header = ({ ...props }) => {
 
   return (
     <header
-      className={`transition-all px-20 fixed top-0 left-0 w-full bg-gradient-to-b from-white via-white to-transparent ${
+      className={`transition-all px-20 fixed z-50 top-0 left-0 w-full bg-gradient-to-b from-white via-white to-transparent ${
         shortened ? "py-6" : "py-12"
       }`}
     >
       <div className="my-0 mx-auto">
-        <span className="text-md mr-4">{shortened ? title.split(' ')[0] : title}</span>
+        <span className="text-md mr-4">
+          {shortened ? title.split(" ")[0] : title}
+        </span>
         {shortened ? (
           <span className="text-gray-800">{parsedTagline}</span>
         ) : (

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Markdown from "markdown-to-jsx";
 import { graphql } from "gatsby";
-import TextTransition, { presets } from "react-text-transition";
-import { useSpring, animated } from "react-spring";
+import { motion, AnimatePresence } from "framer-motion";
 
+import { heroStringVariants } from "../animations";
 import Header from "../components/header";
 import useForm from "../hooks/useForm";
 
@@ -11,37 +11,51 @@ import "../style/index.css";
 
 // markup
 const IndexPage = ({ data }) => {
+  // shorten calls for data
+  let homeData = data.allStrapiHomepage.edges[0].node;
+
   // state: text switcher
   const [textIndex, setTextIndex] = useState(0);
 
   useEffect(() => {
     const intervalId = setInterval(
       () => setTextIndex((textIndex) => textIndex + 1),
-      2500
+      3000
     );
     return () => clearTimeout(intervalId);
   }, []);
 
-  // spring: fade in animation
-  const fadeIn = useSpring({ to: { opacity: 1 }, from: { opacity: 0 } });
+  // hero area string switcher
+  let text =
+    homeData.heroArea.typeList[textIndex % homeData.heroArea.typeList.length]
+      .entry;
+
+  // hero area refs: check width of text and adjust width
+  const [refWidth, getRefWidth] = useState(0);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    getRefWidth(ref.current.offsetWidth);
+  }, [text]);
 
   // form management: set product name
   const [{ values }, handleChange, handleSubmit] = useForm();
   const [productName, setProductName] = useState("");
 
   const getProductName = () => {
-    if (values && Object.keys(values).length === 0 && values.constructor === Object) {
+    if (
+      values &&
+      Object.keys(values).length === 0 &&
+      values.constructor === Object
+    ) {
       setProductName("your product");
     } else {
       setProductName(Object.entries(values)[0][1]);
     }
   };
 
-  // shorten calls for data
-  let homeData = data.allStrapiHomepage.edges[0].node;
-
   return (
-    <animated.main style={fadeIn}>
+    <main>
       <title>Home Page</title>
 
       <Header
@@ -54,16 +68,27 @@ const IndexPage = ({ data }) => {
         <div className="block w-full text-3xl text-gray-800">
           <span className="flex justify-start">
             <span>{homeData.heroArea.sentenceFirst}&nbsp;</span>
-            <TextTransition
-              className="font-bold text-purple-700"
-              text={
-                homeData.heroArea.typeList[
-                  textIndex % homeData.heroArea.typeList.length
-                ].entry
-              }
-              springConfig={presets.gentle}
-            />
-            <span>&nbsp;{homeData.heroArea.sentenceSecond}</span>
+            <AnimatePresence>
+              <motion.div
+                key={text}
+                variants={heroStringVariants}
+                initial={"entrance"}
+                animate={"static"}
+                exit={"exit"}
+                style={{ position: "absolute", marginLeft: 200 }}
+              >
+                <motion.span ref={ref} className="font-bold text-purple-700">
+                  {text}
+                </motion.span>
+              </motion.div>
+            </AnimatePresence>
+            <motion.span
+              initial={{ x: refWidth + 15 }}
+              animate={{ x: refWidth + 15 }}
+              transition={{ type: "spring", stiffness: 80, mass: 0.6 }}
+            >
+              &nbsp;{homeData.heroArea.sentenceSecond}
+            </motion.span>
             <br />
           </span>
           <span className="block mt-4">{homeData.heroArea.sentenceLast}</span>
@@ -77,12 +102,7 @@ const IndexPage = ({ data }) => {
             onChange={handleChange}
             id="item_name"
             type="text"
-            placeholder={
-              homeData.heroArea.fieldPlaceholder +
-              homeData.heroArea.typeList[
-                textIndex % homeData.heroArea.typeList.length
-              ].entry
-            }
+            placeholder={homeData.heroArea.fieldPlaceholder + text}
           />
           <input
             className="buttonReset mt-8 pl-14 -ml-14 z-10"
@@ -99,12 +119,10 @@ const IndexPage = ({ data }) => {
           <main className="">
             <Markdown>{homeData.productSheet.features}</Markdown>
           </main>
-          <figure className="">
-            chart thing
-          </figure>
+          <figure className="">chart thing</figure>
         </article>
       </section>
-    </animated.main>
+    </main>
   );
 };
 
