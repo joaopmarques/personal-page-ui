@@ -161,3 +161,25 @@ header span strong {
   @apply hover:bg-purple-800;
   @apply hover:border-purple-800;
 }
+
+.genericList ul li::before {
+  content: "";
+  @apply absolute;
+  @apply top-3;
+  @apply -left-7;
+  @apply w-2;
+  @apply h-2;
+  @apply rounded-4xl;
+  @apply bg-purple-300;
+}
+
+.lastDescription ul li:last-child {
+  @apply -ml-8;
+  @apply mt-7;
+  @apply text-lg;
+  @apply opacity-50;
+}
+
+.lastDescription ul li:last-child::before {
+  display: none;
+}

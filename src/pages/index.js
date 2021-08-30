@@ -19,8 +19,9 @@ const IndexPage = ({ data }) => {
 
   useEffect(() => {
     // stop vertical scrolling - this will be allowed later
-    document.documentElement.style.overflow = "hidden";
-
+    // scroll to the top first though
+    //window.scrollTo(0, 0);
+    //document.documentElement.style.overflow = "hidden";
     // text switiching logic
     const intervalId = setInterval(
       () => setTextIndex((textIndex) => textIndex + 1),
@@ -44,12 +45,12 @@ const IndexPage = ({ data }) => {
   }, [text]);
 
   // state: find product name or attribute if user didn't set one
-  const [productName, setProductName] = useState("");
+  const [productName, setProductName] = useState("your product");
 
   // product showcase: scroll down and begin the journey
   const beginProductShowcase = () => {
-    window.scrollBy({ top: window.innerHeight, left: 0, behavior: "smooth" });
     document.documentElement.style.overflow = "auto";
+    window.scrollBy({ top: window.innerHeight, left: 0, behavior: "smooth" });
   };
 
   return (
@@ -116,16 +117,39 @@ const IndexPage = ({ data }) => {
       </motion.section>
 
       {/* GRAND SECTION 1 */}
-      <motion.section className="flex flex-wrap content-center h-screen min-h-400 py-3 px-20 bg-white">
-        <section className="flex flex-wrap content-center h-screen min-h-600 py-3 px-20 bg-white">
-          <h1>{`This is ${productName}.`}</h1>
-          <article className="">
-            <section className="">
-              <Markdown>{homeData.productSheet.features}</Markdown>
-            </section>
-            <figure className="">chart thing</figure>
-          </article>
-        </section>
+      <motion.section className="flex flex-col items-center justify-center h-screen min-h-400 py-0 px-20 bg-white overflow-y-hidden">
+        <h1 className="text-8xl font-light text-center mt-auto">{`This is ${productName}.`}</h1>
+        <article className="flex flex-wrap rounded-t-6xl bg-white shadow-2xl mt-auto overflow-hidden max-w-4xl">
+          <section className="p-14 pb-7 w-1/2 relative">
+            <div className="block fixed bottom-0 left-0 w-full h-1/2 z-10 bg-gradient-to-t from-white to-transparent"></div>
+            <div className="genericList lastDescription text-2xl">
+              <motion.ul className="ml-4">
+                {homeData.productSheet.listElements.map((entry) => (
+                  <motion.li
+                    key={entry.id}
+                    className="relative mb-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
+                    {entry.entry.replace('[[product]]', productName)}
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </div>
+          </section>
+          <figure className="flex justify-center items-end p-14 w-1/2 bg-purple-50">
+            <div className="flex flex-col justify-end items-center h-full w-1/2">
+              <div className="block h-1/3 w-24 bg-gray-600 rounded-4xl"></div>
+              <span className="mt-6 opacity-50">The competition</span>
+            </div>
+            <div className="flex flex-col justify-end items-center h-full w-1/2">
+              <div className="block h-full w-24 bg-purple-500 rounded-4xl"></div>
+              <span className="mt-6 font-bold text-purple-700">
+                {productName}
+              </span>
+            </div>
+          </figure>
+        </article>
       </motion.section>
     </motion.main>
   );
@@ -155,7 +179,10 @@ export const pageQuery = graphql`
             fieldPlaceholder
           }
           productSheet {
-            features
+            listElements {
+              id
+              entry
+            }
             chartData {
               col {
                 colName
