@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { graphql } from "gatsby";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import Markdown from "markdown-to-jsx";
+import { useInView } from "react-intersection-observer";
 
-import { heroStringVariants } from "../animations";
+import * as animations from "../animations";
 import Header from "../components/Header";
 
 import "../style/index.css";
@@ -53,6 +54,19 @@ const IndexPage = ({ data }) => {
     window.scrollBy({ top: window.innerHeight, left: 0, behavior: "smooth" });
   };
 
+  // animate on scroll: triggered animation by scroll behavior
+  const animation = useAnimation();
+  const [scrollAnimRef, inView, entry] = useInView({ threshold: 0.9 });
+
+  useEffect(() => {
+    if (inView) {
+      animation.start("visible");
+    } else {
+      animation.start("hidden");
+    }
+  }, [animation, inView]);
+
+  // template
   return (
     <motion.main
       ref={mainContainerRef}
@@ -76,7 +90,7 @@ const IndexPage = ({ data }) => {
               <AnimatePresence>
                 <motion.div
                   key={text}
-                  variants={heroStringVariants}
+                  variants={animations.heroStringVariants}
                   initial={"entrance"}
                   animate={"static"}
                   exit={"exit"}
@@ -117,21 +131,39 @@ const IndexPage = ({ data }) => {
       </motion.section>
 
       {/* GRAND SECTION 1 */}
-      <motion.section className="flex flex-col items-center justify-center h-screen min-h-400 py-0 px-20 bg-white overflow-y-hidden">
-        <h1 className="text-8xl font-light text-center mt-auto">{`This is ${productName}.`}</h1>
+      <motion.section
+        ref={scrollAnimRef}
+        className="flex flex-col items-center justify-center h-screen min-h-400 py-0 px-20 bg-white overflow-y-hidden relative"
+      >
+        <div className="block absolute bottom-0 left-0 w-full h-96 z-10 bg-gradient-to-t from-white to-transparent"></div>
+        <motion.h1
+          className="text-8xl font-light text-center mt-auto"
+          variants={animations.titleVariant}
+        >
+          {`This is ${productName}.`}
+        </motion.h1>
         <article className="flex flex-wrap rounded-t-6xl bg-white shadow-2xl mt-auto overflow-hidden max-w-4xl">
-          <section className="p-14 pb-7 w-1/2 relative">
-            <div className="block fixed bottom-0 left-0 w-full h-1/2 z-10 bg-gradient-to-t from-white to-transparent"></div>
+          <section className="p-14 pb-7 w-1/2">
             <div className="genericList lastDescription text-2xl">
-              <motion.ul className="ml-4">
+              <motion.ul
+                className="ml-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  delayChilden: 1,
+                  staggerChildren: 1,
+                }}
+              >
                 {homeData.productSheet.listElements.map((entry) => (
                   <motion.li
                     key={entry.id}
                     className="relative mb-4"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    style={{ originX: 0 }}
+                    initial={{ scale: 0.85, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
                   >
-                    {entry.entry.replace('[[product]]', productName)}
+                    {entry.entry.replace("[[product]]", productName)}
                   </motion.li>
                 ))}
               </motion.ul>
@@ -151,6 +183,53 @@ const IndexPage = ({ data }) => {
           </figure>
         </article>
       </motion.section>
+
+      {/* GRAND SECTION 2 */}
+      <motion.section className="flex flex-col justify-center h-screen min-h-400 py-0 px-20 bg-white overflow-y-hidden relative">
+        <div className="max-w-8xl mx-auto">
+          {homeData.grandFeatures.map(
+            (item, index) =>
+              index === 0 && (
+                <>
+                  <h2 className="text-6xl font-medium text-left mt-auto text-gray-700">
+                    {item.featureText.title.replace("[[product]]", productName)}
+                  </h2>
+                  <Markdown
+                    className="text-3xl font-light text-left mb-auto mt-20 not-italic text-gray-800"
+                    options={{
+                      overrides: {
+                        h3: {
+                          component: "h3",
+                          props: {
+                            className:
+                              "text-4xl font-medium mt-18 text-gray-700",
+                          },
+                        },
+                        em: {
+                          component: "em",
+                          props: {
+                            className: "font-bold text-purple-700 not-italic",
+                          },
+                        },
+                        strong: {
+                          component: "strong",
+                          props: { className: "font-bold" },
+                        },
+                      },
+                    }}
+                  >
+                    {item.featureText.richText.replace(
+                      "[[product]]",
+                      productName
+                    )}
+                  </Markdown>
+                </>
+              )
+          )}
+        </div>
+      </motion.section>
+
+      {/* GRAND SECTIONS (4 core principles) */}
     </motion.main>
   );
 };
@@ -188,6 +267,12 @@ export const pageQuery = graphql`
                 colName
                 value
               }
+            }
+          }
+          grandFeatures {
+            featureText {
+              title
+              richText
             }
           }
         }
