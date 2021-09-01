@@ -9,6 +9,8 @@ import Header from "../components/Header";
 
 import "../style/index.css";
 
+const ApiUrl = "http://localhost:1337";
+
 // HOMEPAGE MARKUP
 
 const IndexPage = ({ data }) => {
@@ -233,12 +235,15 @@ const IndexPage = ({ data }) => {
       <motion.section className="grandFeatures">
         {homeData.grandFeatures.map(
           (feature, index) =>
-            index > 0 && index < 5 && (
+            index > 0 &&
+            index < 5 && (
               <motion.section className="flex items-center h-screen min-h-600">
                 <section className="descriptionContainer flex flex-col items-start justify-center p-24 w-1/2 h-screen">
                   <motion.div className="-ml-6 mb-3">
                     <span className="text-xl font-light mr-3">{index}.</span>
-                    <span className="text-xl uppercase tracking-widest font-medium">{feature.featureText.text}</span>
+                    <span className="text-xl uppercase tracking-widest font-medium">
+                      {feature.featureText.text}
+                    </span>
                   </motion.div>
                   <motion.h3 className="text-9xl font-bold uppercase mb-16">
                     {feature.featureText.title}
@@ -248,7 +253,11 @@ const IndexPage = ({ data }) => {
                   </Markdown>
                 </section>
                 <section className="pictureContainer flex items-center justify-center w-1/2 h-screen">
-                  imagem
+                  <img
+                    className="h-full w-full object-cover"
+                    src={ApiUrl + feature.featureArtwork.url}
+                    alt={feature.featureText.title}
+                  />
                 </section>
               </motion.section>
             )
@@ -298,6 +307,9 @@ export const pageQuery = graphql`
               text
               title
               richText
+            }
+            featureArtwork {
+              url
             }
           }
         }
