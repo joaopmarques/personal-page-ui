@@ -185,7 +185,7 @@ const IndexPage = ({ data }) => {
       </motion.section>
 
       {/* GRAND SECTION 2 */}
-      <motion.section className="flex flex-col justify-center h-screen min-h-400 py-0 px-20 bg-white overflow-y-hidden relative">
+      <motion.section className="flex flex-col justify-center h-screen min-h-600 py-0 px-20 bg-white overflow-y-hidden relative">
         <div className="max-w-8xl mx-auto">
           {homeData.grandFeatures.map(
             (item, index) =>
@@ -230,6 +230,30 @@ const IndexPage = ({ data }) => {
       </motion.section>
 
       {/* GRAND SECTIONS (4 core principles) */}
+      <motion.section className="grandFeatures">
+        {homeData.grandFeatures.map(
+          (feature, index) =>
+            index > 0 && index < 5 && (
+              <motion.section className="flex items-center h-screen min-h-600">
+                <section className="descriptionContainer flex flex-col items-start justify-center p-24 w-1/2 h-screen">
+                  <motion.div className="-ml-6 mb-3">
+                    <span className="text-xl font-light mr-3">{index}.</span>
+                    <span className="text-xl uppercase tracking-widest font-medium">{feature.featureText.text}</span>
+                  </motion.div>
+                  <motion.h3 className="text-9xl font-bold uppercase mb-16">
+                    {feature.featureText.title}
+                  </motion.h3>
+                  <Markdown className="text-3xl">
+                    {feature.featureText.richText}
+                  </Markdown>
+                </section>
+                <section className="pictureContainer flex items-center justify-center w-1/2 h-screen">
+                  imagem
+                </section>
+              </motion.section>
+            )
+        )}
+      </motion.section>
     </motion.main>
   );
 };
@@ -271,6 +295,7 @@ export const pageQuery = graphql`
           }
           grandFeatures {
             featureText {
+              text
               title
               richText
             }

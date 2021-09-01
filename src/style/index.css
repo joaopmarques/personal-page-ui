@@ -183,3 +183,29 @@ header span strong {
 .lastDescription ul li:last-child::before {
   display: none;
 }
+
+.grandFeatures section:nth-child(1) .descriptionContainer {
+  @apply bg-indigo-600;
+  @apply text-white;
+}
+
+.grandFeatures section:nth-child(2) .descriptionContainer {
+  @apply order-2;
+  @apply bg-green-400;
+  @apply text-black;
+}
+
+.grandFeatures section:nth-child(3) .descriptionContainer {
+  @apply bg-red-500;
+  @apply text-white;
+}
+
+.grandFeatures section:nth-child(4) .descriptionContainer {
+  @apply order-2;
+  @apply bg-yellow-400;
+  @apply text-black;
+}
+
+.grandFeatures .descriptionContainer h3::after {
+  content: ".";
+}
