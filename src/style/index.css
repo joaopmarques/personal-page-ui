@@ -137,15 +137,13 @@ header span strong {
   @apply focus:ring-opacity-50;
 }
 
-.buttonReset {
+.mainButton {
   @apply transition-colors;
   @apply cursor-pointer;
   @apply flex;
   @apply items-center;
   @apply justify-center;
   @apply p-0;
-  @apply h-16;
-  @apply w-44;
   @apply rounded-5xl;
   @apply border-4;
   @apply border-purple-700;
@@ -160,6 +158,12 @@ header span strong {
   @apply focus:ring-opacity-50;
   @apply hover:bg-purple-800;
   @apply hover:border-purple-800;
+}
+
+.buttonReset {
+  @apply mainButton;
+  @apply w-44;
+  @apply h-16;
 }
 
 .genericList ul li::before {

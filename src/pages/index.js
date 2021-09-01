@@ -263,6 +263,23 @@ const IndexPage = ({ data }) => {
             )
         )}
       </motion.section>
+      
+      {/* WRAP UP SECTION */}
+      <motion.section className="flex flex-col justify-center items-center min-h-400">
+        <h2 className="text-center text-7xl text-gray-800 mb-8">
+          {homeData.grandFeatures[5].featureText.title}
+        </h2>
+        <Markdown className="text-center text-3xl text-gray-800">
+          {homeData.grandFeatures[5].featureText.richText.replace("[[product]]", productName)}
+        </Markdown>
+        <a href="" className="mainButton my-8 w-48 px-12 mx-auto">Get in touch</a>
+      </motion.section>
+
+      {/* FOOTER */}
+      <motion.footer className="flex p-8 min-h-400 bg-gray-900 text-gray-50">
+        footy things
+      </motion.footer>
+
     </motion.main>
   );
 };
@@ -309,6 +326,27 @@ export const pageQuery = graphql`
               richText
             }
             featureArtwork {
+              url
+            }
+          }
+          footer {
+            avatar {
+              altText
+              avatarPicture {
+                formats {
+                  large {
+                    url
+                  }
+                }
+              }
+            }
+            footerText {
+              title
+              text
+            }
+            quickLinks {
+              id
+              text
               url
             }
           }
