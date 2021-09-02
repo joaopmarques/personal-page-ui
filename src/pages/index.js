@@ -74,7 +74,7 @@ const IndexPage = ({ data }) => {
       animate={{ opacity: 1 }}
     >
       <motion.section>
-        <title>Homepage</title>
+        <title>João P. Marques | Web Developer</title>
 
         {/* HEADER */}
         <Header
@@ -83,8 +83,8 @@ const IndexPage = ({ data }) => {
         />
 
         {/* HERO AREA */}
-        <section className="flex flex-wrap content-center h-screen min-h-400 py-3 px-20 bg-white">
-          <div className="block w-full text-3xl text-gray-800">
+        <section className="flex flex-wrap content-center h-screen min-h-1000 py-2 md:py-3 px-6 md:px-12 xl:px-20 bg-white">
+          <div className="hidden xl:block w-full text-3xl text-gray-800">
             <span className="flex justify-start">
               <span>{homeData.heroArea.sentenceFirst}&nbsp;</span>
               <AnimatePresence>
@@ -112,7 +112,41 @@ const IndexPage = ({ data }) => {
             </span>
             <span className="block mt-4">{homeData.heroArea.sentenceLast}</span>
           </div>
-          <div className="flex w-full max-w-3xl">
+
+          <div className="block xl:hidden w-full text-3xl text-gray-800">
+            <span className="flex flex-col">
+              <span className="mb-3 text-center">
+                {homeData.heroArea.sentenceFirst}&nbsp;
+              </span>
+              <div style={{ margin: 0, height: 40, position: "relative" }}>
+                <AnimatePresence>
+                  <motion.div
+                    key={text}
+                    variants={animations.heroStringVariants}
+                    initial={"entrance"}
+                    animate={"static"}
+                    exit={"exit"}
+                    style={{
+                      width: "100%",
+                      position: "absolute",
+                      textAlign: "center",
+                    }}
+                  >
+                    <motion.span className="font-bold text-purple-700">
+                      {text}
+                    </motion.span>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+              <span className="mt-2 text-center">
+                &nbsp;{homeData.heroArea.sentenceSecond}
+              </span>
+              <br />
+            </span>
+            <span className="block text-center mt-4">{homeData.heroArea.sentenceLast}</span>
+          </div>
+
+          <div className="flex w-full max-w-3xl mx-auto">
             <input
               className="fieldReset mt-8 -z-10"
               type="text"
@@ -133,17 +167,17 @@ const IndexPage = ({ data }) => {
       {/* GRAND SECTION 1 */}
       <motion.section
         ref={scrollAnimRef}
-        className="flex flex-col items-center justify-center h-screen min-h-400 py-0 px-20 bg-white overflow-y-hidden relative"
+        className="flex flex-col items-center justify-center md:h-screen min-h-800 py-6 md:py-12 xl:py-20 pb-12 md:pb-6 xl:pb-0 bg-white overflow-y-hidden relative"
       >
         <div className="block absolute bottom-0 left-0 w-full h-96 z-10 bg-gradient-to-t from-white to-transparent"></div>
         <motion.h1
-          className="text-8xl font-light text-center mt-auto"
+          className="text-5xl md:text-7xl xl:text-8xl mb-8 font-light text-center mt-auto"
           variants={animations.titleVariant}
         >
           {`This is ${productName}.`}
         </motion.h1>
         <article className="flex flex-wrap rounded-t-6xl bg-white shadow-2xl mt-auto overflow-hidden max-w-4xl">
-          <section className="p-14 pb-7 w-1/2">
+          <section className="p-14 pb-7 w-full md:w-1/2">
             <div className="genericList lastDescription text-2xl">
               <motion.ul
                 className="ml-4"
@@ -169,14 +203,14 @@ const IndexPage = ({ data }) => {
               </motion.ul>
             </div>
           </section>
-          <figure className="flex justify-center items-end p-14 w-1/2 bg-purple-50">
+          <figure className="flex justify-center items-end p-14 w-full md:w-1/2 h-500 md:h-auto bg-purple-50">
             <div className="flex flex-col justify-end items-center h-full w-1/2">
               <div className="block h-1/3 w-24 bg-gray-600 rounded-4xl"></div>
-              <span className="mt-6 opacity-50">The competition</span>
+              <span className="mt-6 opacity-50 text-center">The competition</span>
             </div>
             <div className="flex flex-col justify-end items-center h-full w-1/2">
               <div className="block h-full w-24 bg-purple-500 rounded-4xl"></div>
-              <span className="mt-6 font-bold text-purple-700">
+              <span className="mt-6 font-bold text-purple-700 text-center">
                 {productName}
               </span>
             </div>
@@ -185,13 +219,13 @@ const IndexPage = ({ data }) => {
       </motion.section>
 
       {/* GRAND SECTION 2 */}
-      <motion.section className="flex flex-col justify-center h-screen min-h-600 py-0 px-20 bg-white overflow-y-hidden relative">
+      <motion.section className="flex flex-col justify-center md:h-screen min-h-800 py-6 md:py-12 xl:py-20 px-6 md:px-12 xl:px-20 bg-white overflow-y-hidden relative">
         <div className="max-w-8xl mx-auto">
           {homeData.grandFeatures.map(
             (item, index) =>
               index === 0 && (
                 <>
-                  <h2 className="text-6xl font-medium text-left mt-auto text-gray-700">
+                  <h2 className="text-3xl md:text-5xl xl:text-6xl font-medium text-left mt-auto text-gray-700">
                     {item.featureText.title.replace("[[product]]", productName)}
                   </h2>
                   <Markdown
@@ -202,7 +236,7 @@ const IndexPage = ({ data }) => {
                           component: "h3",
                           props: {
                             className:
-                              "text-4xl font-medium mt-18 text-gray-700",
+                              "text-3xl md:text-4xl font-medium mt-18 text-gray-700",
                           },
                         },
                         em: {
@@ -235,24 +269,24 @@ const IndexPage = ({ data }) => {
           (feature, index) =>
             index > 0 &&
             index < 5 && (
-              <motion.section className="flex items-center h-screen min-h-600">
-                <section className="descriptionContainer flex flex-col items-start justify-center p-24 w-1/2 h-screen">
+              <motion.section className="flex flex-wrap items-center h-800 md:h-screen min-h-800">
+                <section className="descriptionContainer z-10 flex flex-col items-start justify-center w-full md:w-1/2 min-h-800 md:h-screen p-8 lg:p-14 xl:p-18 2xl:p-24">
                   <motion.div className="-ml-6 mb-3">
                     <span className="text-xl font-light mr-3">{index}.</span>
                     <span className="text-xl uppercase tracking-widest font-medium">
                       {feature.featureText.text}
                     </span>
                   </motion.div>
-                  <motion.h3 className="text-9xl font-bold uppercase mb-16">
+                  <motion.h3 className="text-6xl xl:text-7xl 2xl:text-9xl font-bold uppercase mb-16">
                     {feature.featureText.title}
                   </motion.h3>
-                  <Markdown className="text-3xl">
+                  <Markdown className="text-2xl xl:text-3xl">
                     {feature.featureText.richText}
                   </Markdown>
                 </section>
-                <section className="pictureContainer flex items-center justify-center w-1/2 h-screen">
+                <section className="pictureContainer flex items-center justify-center relative -top-full md:top-0 z-0 w-full md:w-1/2 min-h-800 md:h-screen">
                   <img
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover absolute top-0 left-0"
                     src={feature.featureArtwork.url}
                     alt={feature.featureText.title}
                   />
@@ -261,23 +295,32 @@ const IndexPage = ({ data }) => {
             )
         )}
       </motion.section>
-      
+
       {/* WRAP UP SECTION */}
-      <motion.section className="flex flex-col justify-center items-center min-h-400">
-        <h2 className="text-center text-7xl text-gray-800 mb-8">
+      <motion.section className="flex flex-col justify-center items-center min-h-800 p-4 md:p6 xl:p8">
+        <h2 className="text-center text-5xl md:text-6xl xl:text-7xl text-gray-800 mb-8">
           {homeData.grandFeatures[5].featureText.title}
         </h2>
-        <Markdown className="text-center text-3xl text-gray-800">
-          {homeData.grandFeatures[5].featureText.richText.replace("[[product]]", productName)}
+        <Markdown className="text-center text-xl md:text-2xl xl:text-3xl text-gray-800">
+          {homeData.grandFeatures[5].featureText.richText.replace(
+            "[[product]]",
+            productName
+          )}
         </Markdown>
-        <a href="https://www.linkedin.com/in/jopmarques/" className="mainButton my-8 w-48 px-12 mx-auto">Get in touch</a>
+        <a
+          href="https://www.linkedin.com/in/jopmarques/"
+          target="_blank"
+          rel="noreferrer"
+          className="mainButton my-8 w-48 px-12 mx-auto"
+        >
+          Get in touch
+        </a>
       </motion.section>
 
       {/* FOOTER */}
-      <motion.footer className="flex p-8 min-h-400 bg-gray-900 text-gray-50">
+      <motion.footer className="flex p-8 min-h-800 bg-gray-900 text-gray-50">
         footy things
       </motion.footer>
-
     </motion.main>
   );
 };

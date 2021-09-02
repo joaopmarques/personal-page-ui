@@ -191,23 +191,35 @@ header span strong {
 .grandFeatures section:nth-child(1) .descriptionContainer {
   @apply bg-indigo-600;
   @apply text-white;
+  @apply backdrop-filter backdrop-blur-sm;
+  @apply bg-opacity-75;
+  @apply md:bg-opacity-100;
 }
 
 .grandFeatures section:nth-child(2) .descriptionContainer {
-  @apply order-2;
   @apply bg-green-400;
   @apply text-black;
+  @apply backdrop-filter backdrop-blur-sm;
+  @apply bg-opacity-75;
+  @apply md:bg-opacity-100;
+  @apply md:order-2;
 }
 
 .grandFeatures section:nth-child(3) .descriptionContainer {
   @apply bg-red-500;
   @apply text-white;
+  @apply backdrop-filter backdrop-blur-sm;
+  @apply bg-opacity-75;
+  @apply md:bg-opacity-100;
 }
 
 .grandFeatures section:nth-child(4) .descriptionContainer {
-  @apply order-2;
   @apply bg-yellow-400;
   @apply text-black;
+  @apply backdrop-filter backdrop-blur-sm;
+  @apply bg-opacity-75;
+  @apply md:bg-opacity-100;
+  @apply md:order-2;
 }
 
 .grandFeatures .descriptionContainer h3::after {
