@@ -36,7 +36,6 @@ module.exports = {
       options: {
         apiURL: `https://jpmarques-website.herokuapp.com`,
         queryLimit: 1000, // Defaults to 100
-        collectionTypes: [`article`],
         singleTypes: [`homepage`],
       },
     },

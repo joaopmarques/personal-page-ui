@@ -9,8 +9,6 @@ import Header from "../components/Header";
 
 import "../style/index.css";
 
-const ApiUrl = "http://localhost:1337";
-
 // HOMEPAGE MARKUP
 
 const IndexPage = ({ data }) => {
@@ -255,7 +253,7 @@ const IndexPage = ({ data }) => {
                 <section className="pictureContainer flex items-center justify-center w-1/2 h-screen">
                   <img
                     className="h-full w-full object-cover"
-                    src={ApiUrl + feature.featureArtwork.url}
+                    src={feature.featureArtwork.url}
                     alt={feature.featureText.title}
                   />
                 </section>
