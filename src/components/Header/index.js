@@ -8,13 +8,13 @@ const Header = ({ ...props }) => {
 
   useEffect(() => {
     window.onscroll = function () {
-      if (window.scrollY > 100) {
+      if (window.pageYOffset > 100) {
         setShortened(true);
       } else {
         setShortened(false);
       }
 
-      if (window.scrollY > 400) {
+      if (window.pageYOffset > 400) {
         setOverscrolled(true);
       } else {
         setOverscrolled(false);
