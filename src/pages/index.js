@@ -113,12 +113,12 @@ const IndexPage = ({ data }) => {
             <span className="block mt-4">{homeData.heroArea.sentenceLast}</span>
           </div>
 
-          <div className="block xl:hidden w-full text-3xl text-gray-800">
+          <div className="block xl:hidden w-full text-2xl text-gray-800">
             <span className="flex flex-col">
-              <span className="mb-3 text-center">
+              <span className="mb-2 text-center">
                 {homeData.heroArea.sentenceFirst}&nbsp;
               </span>
-              <div style={{ margin: 0, height: 40, position: "relative" }}>
+              <div style={{ margin: 0, height: 30, position: "relative" }}>
                 <AnimatePresence>
                   <motion.div
                     key={text}
@@ -143,10 +143,12 @@ const IndexPage = ({ data }) => {
               </span>
               <br />
             </span>
-            <span className="block text-center mt-4">{homeData.heroArea.sentenceLast}</span>
+            <span className="block text-center mt-4">
+              {homeData.heroArea.sentenceLast}
+            </span>
           </div>
 
-          <div className="flex w-full max-w-3xl mx-auto">
+          <div className="flex w-full max-w-3xl mx-auto xl:mx-0">
             <input
               className="fieldReset mt-8 -z-10"
               type="text"
@@ -206,7 +208,9 @@ const IndexPage = ({ data }) => {
           <figure className="flex justify-center items-end p-14 w-full md:w-1/2 h-500 md:h-auto bg-purple-50">
             <div className="flex flex-col justify-end items-center h-full w-1/2">
               <div className="block h-1/3 w-24 bg-gray-600 rounded-4xl"></div>
-              <span className="mt-6 opacity-50 text-center">The competition</span>
+              <span className="mt-6 opacity-50 text-center">
+                The competition
+              </span>
             </div>
             <div className="flex flex-col justify-end items-center h-full w-1/2">
               <div className="block h-full w-24 bg-purple-500 rounded-4xl"></div>
@@ -318,8 +322,36 @@ const IndexPage = ({ data }) => {
       </motion.section>
 
       {/* FOOTER */}
-      <motion.footer className="flex p-8 min-h-800 bg-gray-900 text-gray-50">
-        footy things
+      <motion.footer className="flex px-8 md:px-12 py-16 md:py-24 min-h-800 bg-gray-900 text-gray-50">
+        <section className="flex-grow-0 flex-shrink-0">
+          <img
+            src={homeData.footer.avatar.avatarPicture.url}
+            alt={homeData.footer.avatar.altText}
+            className="block w-28 h-28 rounded-full border-4 border-white mr-6"
+          />
+        </section>
+        <section className="flex-grow-1 opacity-90">
+          <h4 className="text-xl font-bold">
+            {homeData.footer.footerText.title}
+          </h4>
+          <Markdown className="text-xl font-regular">
+            {homeData.footer.footerText.text}
+          </Markdown>
+          <ul className="mt-12 italic">
+          {homeData.footer.quickLinks.map((link, index) => (
+            <li className="flex column mb-2">
+            <a
+              key={index}
+              href={link.url}
+              target={link.targetBlank ? "_blank" : ""}
+              rel="noreferrer"
+            >
+              {link.text} &#62;
+            </a>
+            </li>
+          ))}
+          </ul>
+        </section>
       </motion.footer>
     </motion.main>
   );
