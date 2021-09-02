@@ -4,8 +4,8 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
-    title: "personal-page-ui",
+    siteUrl: "https://www.jpmarques.com",
+    title: "João P. Marques | Web Developer",
   },
   plugins: [
     "gatsby-plugin-postcss",
@@ -39,5 +39,12 @@ module.exports = {
         singleTypes: [`homepage`],
       },
     },
+    {
+      resolve: `gatsby-plugin-netlify`,
+      options: {
+        mergeLinkHeaders: false,
+        mergeCachingHeaders: false
+      },
+  },
   ],
 };
