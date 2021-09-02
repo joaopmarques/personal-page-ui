@@ -25,7 +25,7 @@ const Header = ({ ...props }) => {
   const { title, tagline } = props;
   let parsedTagline;
   shortened
-    ? (parsedTagline = tagline.match(/(?<=_)(.*?)(?=_)/g))
+    ? (parsedTagline = "web developer")
     : (parsedTagline = tagline);
 
   return (
