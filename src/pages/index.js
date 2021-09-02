@@ -19,10 +19,6 @@ const IndexPage = ({ data }) => {
   const [textIndex, setTextIndex] = useState(0);
 
   useEffect(() => {
-    // stop vertical scrolling - this will be allowed later
-    // scroll to the top first though
-    //window.scrollTo(0, 0);
-    //document.documentElement.style.overflow = "hidden";
     // text switiching logic
     const intervalId = setInterval(
       () => setTextIndex((textIndex) => textIndex + 1),
@@ -322,12 +318,12 @@ const IndexPage = ({ data }) => {
       </motion.section>
 
       {/* FOOTER */}
-      <motion.footer className="flex px-8 md:px-12 py-16 md:py-24 min-h-800 bg-gray-900 text-gray-50">
+      <motion.footer className="flex px-8 md:px-12 py-16 md:py-24 min-h-400 bg-gray-900 text-gray-50">
         <section className="flex-grow-0 flex-shrink-0">
           <img
             src={homeData.footer.avatar.avatarPicture.url}
             alt={homeData.footer.avatar.altText}
-            className="block w-28 h-28 rounded-full border-4 border-white mr-6"
+            className="block w-16 md:w-28 h-16 md:h-28 rounded-full border-4 border-white mr-6"
           />
         </section>
         <section className="flex-grow-1 opacity-90">
