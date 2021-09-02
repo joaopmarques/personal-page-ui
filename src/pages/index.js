@@ -35,7 +35,6 @@ const IndexPage = ({ data }) => {
   // hero area refs: check width of text and adjust width
   const [refWidth, getRefWidth] = useState(0);
   const ref = useRef(null);
-  const mainContainerRef = useRef(null);
 
   useEffect(() => {
     getRefWidth(ref.current.offsetWidth);
@@ -64,11 +63,7 @@ const IndexPage = ({ data }) => {
 
   // template
   return (
-    <motion.main
-      ref={mainContainerRef}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    <main>
       <motion.section>
         <title>João P. Marques | Web Developer</title>
 
@@ -349,7 +344,7 @@ const IndexPage = ({ data }) => {
           </ul>
         </section>
       </motion.footer>
-    </motion.main>
+    </main>
   );
 };
 
