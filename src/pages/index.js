@@ -272,7 +272,7 @@ const IndexPage = ({ data }) => {
         <Markdown className="text-center text-3xl text-gray-800">
           {homeData.grandFeatures[5].featureText.richText.replace("[[product]]", productName)}
         </Markdown>
-        <a href="" className="mainButton my-8 w-48 px-12 mx-auto">Get in touch</a>
+        <a href="https://www.linkedin.com/in/jopmarques/" className="mainButton my-8 w-48 px-12 mx-auto">Get in touch</a>
       </motion.section>
 
       {/* FOOTER */}
@@ -333,11 +333,7 @@ export const pageQuery = graphql`
             avatar {
               altText
               avatarPicture {
-                formats {
-                  large {
-                    url
-                  }
-                }
+                url
               }
             }
             footerText {
@@ -348,31 +344,7 @@ export const pageQuery = graphql`
               id
               text
               url
-            }
-          }
-        }
-      }
-    }
-    allStrapiArticle {
-      edges {
-        node {
-          id
-          titleText {
-            title
-            text
-          }
-          externalLinks {
-            text
-            url
-            targetBlank
-          }
-          headerImg {
-            name
-            alternativeText
-            formats {
-              large {
-                url
-              }
+              targetBlank
             }
           }
         }
