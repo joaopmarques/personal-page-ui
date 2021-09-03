@@ -1,10 +1,10 @@
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
-})
+});
 
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://www.jpmarques.com",
+    siteUrl: "https://jpmarques.com",
     title: "João P. Marques | Web Developer",
   },
   plugins: [
@@ -43,8 +43,16 @@ module.exports = {
       resolve: `gatsby-plugin-netlify`,
       options: {
         mergeLinkHeaders: false,
-        mergeCachingHeaders: false
+        mergeCachingHeaders: false,
       },
-  },
+    },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        background_color: "#6d28d9",
+        theme_color: "#6d28d9",
+        icon: "src/images/logo.png",
+      },
+    },
   ],
 };
