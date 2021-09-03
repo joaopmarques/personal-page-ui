@@ -198,13 +198,13 @@ const IndexPage = ({ data }) => {
           </section>
           <figure className="flex justify-center items-end p-14 w-full md:w-1/2 h-500 md:h-auto bg-purple-50">
             <div className="flex flex-col justify-end items-center h-full w-1/2">
-              <div className="block h-1/3 w-24 bg-gray-600 rounded-4xl"></div>
+              <div className="origin-bottom block h-1/3 w-24 bg-gray-600 rounded-4xl"></div>
               <span className="mt-6 opacity-50 text-center">
                 The competition
               </span>
             </div>
             <div className="flex flex-col justify-end items-center h-full w-1/2">
-              <div className="block h-full w-24 bg-purple-500 rounded-4xl"></div>
+              <div className="origin-bottom block h-full w-24 bg-purple-500 rounded-4xl"></div>
               <span className="mt-6 font-bold text-purple-700 text-center">
                 {productName}
               </span>
@@ -219,7 +219,7 @@ const IndexPage = ({ data }) => {
           {homeData.grandFeatures.map(
             (item, index) =>
               index === 0 && (
-                <>
+                <div key={index}>
                   <h2 className="text-3xl md:text-5xl xl:text-6xl font-medium text-left mt-auto text-gray-700">
                     {item.featureText.title.replace("[[product]]", productName)}
                   </h2>
@@ -252,7 +252,7 @@ const IndexPage = ({ data }) => {
                       productName
                     )}
                   </Markdown>
-                </>
+                </div>
               )
           )}
         </div>
@@ -329,18 +329,18 @@ const IndexPage = ({ data }) => {
             {homeData.footer.footerText.text}
           </Markdown>
           <ul className="mt-12 italic">
-          {homeData.footer.quickLinks.map((link, index) => (
-            <li className="flex column mb-2">
-            <a
-              key={index}
-              href={link.url}
-              target={link.targetBlank ? "_blank" : ""}
-              rel="noreferrer"
-            >
-              {link.text} &#62;
-            </a>
-            </li>
-          ))}
+            {homeData.footer.quickLinks.map((link, index) => (
+              <li className="flex column mb-2">
+                <a
+                  key={index}
+                  href={link.url}
+                  target={link.targetBlank ? "_blank" : ""}
+                  rel="noreferrer"
+                >
+                  {link.text} &#62;
+                </a>
+              </li>
+            ))}
           </ul>
         </section>
       </motion.footer>
