@@ -6,6 +6,7 @@ module.exports = {
   siteMetadata: {
     siteUrl: "https://jpmarques.com",
     title: "João P. Marques | Web Developer",
+    description: "Hi! I'm João, a web developer that loves design, user experience and software.",
   },
   plugins: [
     "gatsby-plugin-postcss",
