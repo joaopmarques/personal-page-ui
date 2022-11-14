@@ -265,7 +265,7 @@ const IndexPage = ({ data }) => {
             index > 0 &&
             index < 5 && (
               <motion.section className="flex flex-wrap items-center h-800 md:h-screen min-h-800">
-                <section className="descriptionContainer z-10 flex flex-col items-start justify-center w-full md:w-1/2 min-h-800 md:h-screen p-8 lg:p-14 xl:p-18 2xl:p-24">
+                <section className="descriptionContainer z-10 flex flex-col items-start justify-center w-full min-h-800 md:h-screen p-8 lg:p-14 xl:p-18 2xl:p-24">
                   <motion.div className="-ml-6 mb-3">
                     <span className="text-xl font-light mr-3">{index}.</span>
                     <span className="text-xl uppercase tracking-widest font-medium">
@@ -279,6 +279,7 @@ const IndexPage = ({ data }) => {
                     {feature.featureText.richText}
                   </Markdown>
                 </section>
+                <!--
                 <section className="pictureContainer flex items-center justify-center relative -top-full md:top-0 z-0 w-full md:w-1/2 min-h-800 md:h-screen">
                   <img
                     className="h-full w-full object-cover absolute top-0 left-0"
@@ -286,6 +287,7 @@ const IndexPage = ({ data }) => {
                     alt={feature.featureText.title}
                   />
                 </section>
+                -->
               </motion.section>
             )
         )}
